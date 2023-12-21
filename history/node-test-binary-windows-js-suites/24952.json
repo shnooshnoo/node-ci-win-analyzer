@@ -1,0 +1,106 @@
+{
+  "failedTests": [
+    {
+      "testName": "parallel/test-tls-ticket-cluster",
+      "timestamp": 1702410172060,
+      "status": "FAILED",
+      "jobName": "node-test-binary-windows-js-suites",
+      "config": "node-test-binary-windows-js-suites » 2,win2016-COMPILED_BY-vs2022-x86 #24952",
+      "buildUrl": "https://ci.nodejs.org/job/node-test-binary-windows-js-suites/RUN_SUBSET=2,nodes=win2016-COMPILED_BY-vs2022-x86/24952/",
+      "buildNumber": 24952,
+      "builtOn": "test-azure_msft-win2016_vs2017-x64-5",
+      "nodeVersion": "22.0.0",
+      "commitHash": "ed7f7ac022609f3174a2015028c592f8d9223a45",
+      "callStack": [
+        {
+          "upstreamBuild": 59759,
+          "upstreamProject": "node-test-commit-windows-fanned",
+          "upstreamUrl": "job/node-test-commit-windows-fanned/"
+        },
+        {
+          "upstreamBuild": 67291,
+          "upstreamProject": "node-test-commit",
+          "upstreamUrl": "job/node-test-commit/"
+        },
+        {
+          "upstreamBuild": 56258,
+          "upstreamProject": "node-test-pull-request",
+          "upstreamUrl": "job/node-test-pull-request/"
+        },
+        {
+          "prId": "50758"
+        }
+      ],
+      "tap": {
+        "ok": false,
+        "name": "parallel/test-tls-ticket-cluster",
+        "id": 783,
+        "buffered": false,
+        "tapError": null,
+        "skip": false,
+        "todo": false,
+        "previous": null,
+        "plan": null,
+        "diag": {
+          "severity": "fail",
+          "exitcode": 1,
+          "stack": "[primary] got \"listening\"\n[primary] connecting 59662 session? false\n[primary] got \"listening\"\n[primary] got \"listening\"\n[primary] got \"listening\"\n[worker] connection reused? false\n[primary] got \"not-reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[primary] connecting 59662 session? true\n[worker] connection reused? true\n[primary] got \"reused\"\n[worker] got \"die\"\n[worker] server close\n[worker] exit\n[worker] got \"die\"\n[worker] got \"die\"\n[worker] server close\n[worker] server close\n[worker] exit\n[worker] exit\n[worker] got \"die\"\n[worker] server close\n[worker] exit\n[primary] worker died\n[primary] worker died\n[primary] worker died\n[primary] worker died\nnode:assert:126\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n15 !== 16\n\n    at process.<anonymous> (C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\parallel\\test-tls-ticket-cluster.js:93:12)\n    at process.emit (node:events:531:35) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 15,\n  expected: 16,\n  operator: 'strictEqual'\n}\n\nNode.js v22.0.0-pre"
+        },
+        "time": 714.058,
+        "fullname": "parallel/test-tls-ticket-cluster",
+        "closingTestPoint": false
+      }
+    },
+    {
+      "testName": "parallel/test-runner-watch-mode",
+      "timestamp": 1702410172060,
+      "status": "FAILED",
+      "jobName": "node-test-binary-windows-js-suites",
+      "config": "node-test-binary-windows-js-suites » 3,win2022-COMPILED_BY-vs2022 #24952",
+      "buildUrl": "https://ci.nodejs.org/job/node-test-binary-windows-js-suites/RUN_SUBSET=3,nodes=win2022-COMPILED_BY-vs2022/24952/",
+      "buildNumber": 24952,
+      "builtOn": "test-rackspace-win2022_vs2022-x64-6",
+      "nodeVersion": "22.0.0",
+      "commitHash": "ed7f7ac022609f3174a2015028c592f8d9223a45",
+      "callStack": [
+        {
+          "upstreamBuild": 59759,
+          "upstreamProject": "node-test-commit-windows-fanned",
+          "upstreamUrl": "job/node-test-commit-windows-fanned/"
+        },
+        {
+          "upstreamBuild": 67291,
+          "upstreamProject": "node-test-commit",
+          "upstreamUrl": "job/node-test-commit/"
+        },
+        {
+          "upstreamBuild": 56258,
+          "upstreamProject": "node-test-pull-request",
+          "upstreamUrl": "job/node-test-pull-request/"
+        },
+        {
+          "prId": "50758"
+        }
+      ],
+      "tap": {
+        "ok": false,
+        "name": "parallel/test-runner-watch-mode",
+        "id": 745,
+        "buffered": false,
+        "tapError": null,
+        "skip": false,
+        "todo": ": Fix flaky test",
+        "previous": null,
+        "plan": null,
+        "diag": {
+          "severity": "flaky",
+          "exitcode": 1,
+          "stack": "TAP version 13\n# Subtest: test runner watch mode\n    # Subtest: should run tests repeatedly\n    ok 1 - should run tests repeatedly\n      ---\n      duration_ms: 2467.0795\n      ...\n    # Subtest: should run tests with dependency repeatedly\n    ok 2 - should run tests with dependency repeatedly\n      ---\n      duration_ms: 1758.0862\n      ...\n    # Subtest: should run tests with ESM dependency\n    ok 3 - should run tests with ESM dependency\n      ---\n      duration_ms: 1745.7627\n      ...\n    # Subtest: should support running tests without a file\n    ok 4 - should support running tests without a file\n      ---\n      duration_ms: 1705.1928\n      ...\n    1..4\nok 1 - test runner watch mode\n  ---\n  duration_ms: 7684.4113\n  type: 'suite'\n  ...\n1..1\n# tests 4\n# suites 1\n# pass 4\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 7739.0168\nCan't clean tmpdir: C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\.tmp.653\nFiles blocking: [ 'dependency.js', 'dependency.mjs', 'test.js' ]\n\nC:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\common\\tmpdir.js:69\n    throw e;\n    ^\n\nError: EBUSY: resource busy or locked, rmdir 'C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\.tmp.653'\n    at rmdirSync (node:fs:1217:11)\n    at _rmdirSync (node:internal/fs/rimraf:235:5)\n    at rimrafSync (node:internal/fs/rimraf:193:7)\n    at Object.rmSync (node:fs:1266:10)\n    at rmSync (C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\common\\tmpdir.js:20:8)\n    at onexit (C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\common\\tmpdir.js:54:5)\n    at process.<anonymous> (C:\\workspace\\node-test-binary-windows-js-suites\\node\\test\\common\\tmpdir.js:43:14)\n    at process.emit (node:events:531:35) {\n  errno: -4082,\n  code: 'EBUSY',\n  syscall: 'rmdir',\n  path: 'C:\\\\workspace\\\\node-test-binary-windows-js-suites\\\\node\\\\test\\\\.tmp.653'\n}\n\nNode.js v22.0.0-pre"
+        },
+        "time": 8238.116,
+        "fullname": "parallel/test-runner-watch-mode",
+        "closingTestPoint": false
+      }
+    }
+  ]
+}
