@@ -1,0 +1,9 @@
+.tableHeaderCell.tableHeaderCell {
+    font-weight: bold;
+}
+
+.filterBox {
+    margin-bottom: 16px;
+    gap: 20px;
+    display: flex;
+}
