@@ -75,6 +75,7 @@ async function parseBuild(jobName, buildNumber) {
 
     const parameters = report.child.actions.find((action) => action._class === 'hudson.matrix.MatrixChildParametersAction')?.parameters ?? [];
     const nodeVersion = parameters.find((param) => param.name === 'NODEJS_VERSION')?.value;
+    const nodeMajorVersion = parameters.find((param) => param.name === 'NODEJS_MAJOR_VERSION')?.value;
     const commitHash = parameters.find((param) => param.name === 'GIT_COMMIT')?.value;
 
     const callStack = await findCauses(jobName, buildNumber);
@@ -101,7 +102,7 @@ async function parseBuild(jobName, buildNumber) {
             buildUrl: report.child.url,
             buildNumber: report.child.number,
             builtOn: report.child.builtOn,
-            nodeVersion,
+            nodeVersion: nodeVersion || nodeMajorVersion,
             commitHash,
             callStack,
             tap,

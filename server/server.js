@@ -5,11 +5,7 @@ import { resolve } from 'path';
 const app = express();
 const port = 3000;
 
-app.get('/', function(req, res) {
-  res.sendFile(resolve('public/index.html'));
-});
-
-app.get('/pr', async (req, res) => {
+app.get('/api/prs', async (req, res) => {
   const prPath = 'history/pr';
   const prFileNames = fs.readdirSync(prPath);
 
@@ -19,10 +15,21 @@ app.get('/pr', async (req, res) => {
   })
   data.sort((a,b) => a.timestamp < b.timestamp ? 1 : -1);
 
-  res.json({ data });
+  res.json({
+    data: data.map(({ actions, id, timestamp, subBuilds }) => {
+      const parameters = actions.find((action) => action._class === "hudson.model.ParametersAction")?.parameters ?? [];
+      const prId = parameters.find((param) => param.name === "PR_ID")?.value ?? '';
+      return {
+        id,
+        date: new Date(timestamp).toISOString().split('T')[0],
+        prId,
+        subBuilds,
+      }
+    }),
+  });
 });
 
-app.get('/tests', async (req, res) => {
+app.get('/api/tests', async (req, res) => {
   const jsSuitesPath = 'history/node-test-binary-windows-js-suites';
   const jsSuitesFileNames = fs.readdirSync(jsSuitesPath);
   const nativeSuitesPath = 'history/node-test-binary-windows-native-suites';
@@ -51,9 +58,14 @@ app.get('/tests', async (req, res) => {
       return {
         ...test,
         config: test.config.split('»')[1].split('#')[0].trim(),
+        date: new Date(test.timestamp).toISOString().split('T')[0],
       }
     }),
   })
+});
+
+app.get('*', function(req, res) {
+  res.sendFile(resolve('public/index.html'));
 });
 
 app.listen(port, () => {
