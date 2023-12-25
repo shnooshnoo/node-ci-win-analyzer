@@ -7,22 +7,32 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import Checkbox from '@mui/material/Checkbox';
+import classNames from 'classnames';
 
-import { container, statsContainer, tableHeaderCell, filterBox, chartsContainer } from './styles.module.css';
+import { container, statsContainer, tableHeaderCell, filterBox, chartsContainer, failedWinBuild, unstableWinBuild } from './styles.module.css';
 import { ChartJobsShare } from './chart-jobs-share.jsx';
 import { ChartBuildsShare } from './chart-builds-share.jsx';
 
 export const PRs = () => {
+  const [includeUnstable, setIncludeUnstable] = useState(true);
   const [date, setDate] = useState('');
   const [failuresByDate, setFailuresByDate] = useState(null);
   const [stats, setStats] = useState({});
   const [builds, setBuilds] = useState([]);
   const [filteredBuilds, setFilteredBuilds] = useState([]);
 
+  const isBuildFailed = useCallback((result) => {
+    if (includeUnstable) {
+      return result === 'FAILURE' || result === 'UNSTABLE';
+    }
+    return result === 'FAILURE';
+  }, [includeUnstable]);
+
   useEffect(() => {
-    fetch('http://localhost:3000/api/prs').then((res) => res.json()).then(({ data }) => {
+    fetch(`http://localhost:3000/api/prs?includeUnstable=${includeUnstable}`).then((res) => res.json()).then(({ data }) => {
       setBuilds(data);
 
       const updatedFailuresByDate = {};
@@ -47,7 +57,7 @@ export const PRs = () => {
 
           for (let subBuild of build.build.subBuilds) {
             updatedFailuresByDate[item.date].totalJobs++;
-            if (subBuild.result === 'FAILURE' || subBuild.result === 'UNSTABLE') {
+            if (isBuildFailed(subBuild.result)) {
               updatedFailuresByDate[item.date].totalFailures++;
               if (subBuild.jobName === 'node-test-commit-windows-fanned') {
                 updatedFailuresByDate[item.date].win++;
@@ -68,7 +78,7 @@ export const PRs = () => {
       }
       setFailuresByDate(updatedFailuresByDate);
     })
-  }, []);
+  }, [includeUnstable, isBuildFailed]);
 
   useEffect(() => {
     const filteredBuilds = builds.map((item) => {
@@ -90,7 +100,7 @@ export const PRs = () => {
 
         for (let subBuild of build.build.subBuilds) {
           currentStats.totalJobs++;
-          if (subBuild.result === 'FAILURE' || subBuild.result === 'UNSTABLE') {
+          if (isBuildFailed(subBuild.result)) {
             currentStats.totalFailures++;
             if (subBuild.jobName === 'node-test-commit-windows-fanned') {
               currentStats.win++;
@@ -118,10 +128,13 @@ export const PRs = () => {
     stats.winShare = (stats.win * 100 / stats.totalFailures).toFixed(2);
     stats.winOnlyShare = (stats.winOnly * 100 / stats.total).toFixed(2);
     setStats(stats);
-  }, [builds, date, setFilteredBuilds]);
+  }, [builds, date, setFilteredBuilds, isBuildFailed]);
 
   const onDateChange = (e) => {
     setDate(e.target.value.trim());
+  }
+  const onUnstableChange = (e, isChecked) => {
+    setIncludeUnstable(isChecked);
   }
 
   return (
@@ -133,6 +146,13 @@ export const PRs = () => {
       </div>
       <div className={filterBox}>
         <TextField id="standard-basic" label="Date" variant="standard" value={date} onChange={onDateChange} />
+      </div>
+      <div>
+        <Checkbox
+          checked={includeUnstable}
+          onChange={onUnstableChange}
+        />
+        Include unstable
       </div>
       <div className={statsContainer}>
         <span>Total builds: {stats.total}</span>
@@ -179,8 +199,11 @@ export const PRs = () => {
                         {build.build.subBuilds.length === 0 && (
                           <li>{build.jobName}</li>
                         )}
-                        {build.build.subBuilds.filter((subBuild) => subBuild.result === "FAILURE" || subBuild.result === 'UNSTABLE').map((subBuild, index) => (
-                          <li key={index}>{subBuild.jobName}</li>
+                        {build.build.subBuilds.filter((subBuild) => isBuildFailed(subBuild.result)).map((subBuild, index) => (
+                          <li key={index}><span className={classNames({
+                            [failedWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
+                            [unstableWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
+                          })}>{subBuild.jobName} ({subBuild.result})</span></li>
                         ))}
                       </ul>
                     </TableCell>

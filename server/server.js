@@ -15,8 +15,10 @@ app.get('/api/prs', async (req, res) => {
   })
   data.sort((a,b) => a.timestamp < b.timestamp ? 1 : -1);
 
+  const filteredData = req.query.includeUnstable === 'true' ? data : data.filter((item) => item.result === 'FAILURE');
+
   res.json({
-    data: data.map(({ actions, id, timestamp, subBuilds }) => {
+    data: filteredData.map(({ actions, id, timestamp, subBuilds }) => {
       const parameters = actions.find((action) => action._class === "hudson.model.ParametersAction")?.parameters ?? [];
       const prId = parameters.find((param) => param.name === "PR_ID")?.value ?? '';
       return {
