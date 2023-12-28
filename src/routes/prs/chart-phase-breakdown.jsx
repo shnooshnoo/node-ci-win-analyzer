@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useEffect, useState } from 'react';
 
 export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     const total = {};
@@ -31,18 +31,24 @@ export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
     const names = Object.keys(total);
     names.sort();
 
-    setStats({
-      names,
-      values: names.map((name) => total[name]),
-    })
+    if (names.length) {
+      setStats({
+        names,
+        values: names.map((name) => total[name]),
+      });
+    }
   }, [builds, includeUnstable]);
+
+  if (stats === null) {
+    return;
+  }
 
   return (
     <div>
       <h4>Windows failures breakdown by phase</h4>
       <BarChart
         xAxis={[{ scaleType: 'band', data: stats.names }]}
-        series={[{ data: stats.values } ]}
+        series={[{ data: stats.values }]}
         width={500}
         height={300}
       />
