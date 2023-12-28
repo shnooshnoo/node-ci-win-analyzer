@@ -13,6 +13,16 @@ export async function parsePRs() {
     if (!failStatuses.includes(data.builds[i].result) || fs.existsSync(filePath)) {
       continue;
     }
+    for (let build of data.builds[i].subBuilds) {
+      for (let subBuild of build.build.subBuilds) {
+        const { jobName, result, buildNumber } = subBuild;
+        if (jobName === 'node-test-commit-windows-fanned' && (result === 'FAILURE' || result === 'UNSTABLE')) {
+          const res = await f(`https://ci.nodejs.org/job/node-test-commit-windows-fanned/${buildNumber}/api/json?tree=subBuilds[jobName,result]`);
+          const json = await res.json();
+          subBuild.phases = json.subBuilds;
+        }
+      }
+    }
     fs.writeFileSync(filePath, JSON.stringify(data.builds[i]), 'utf8');
     filesAdded++;
   }
