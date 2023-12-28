@@ -20,6 +20,7 @@ import {
   failedBuild,
   failedWinBuild,
   filterBox,
+  nestedList,
   statsContainer,
   tableHeaderCell,
   unstableBuild,
@@ -218,12 +219,24 @@ export const PRs = () => {
                           subBuild,
                           index,
                         ) => (
-                          <li key={index}><span className={classNames({
-                            [failedWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
-                            [failedBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
-                            [unstableWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
-                            [unstableBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
-                          })}>{subBuild.jobName} ({subBuild.result})</span></li>
+                          <li key={index}>
+                            <span className={classNames({
+                              [failedWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
+                              [failedBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
+                              [unstableWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
+                              [unstableBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
+                            })}>{subBuild.jobName} ({subBuild.result})</span>
+                            {subBuild.phases && subBuild.result === 'FAILURE' && (
+                              <ul className={nestedList}>
+                                {subBuild.phases.map((phase, index) => {
+                                  if (phase.result !== 'SUCCESS') {
+                                    return <li key={index}>{phase.jobName}</li>
+                                  }
+                                  return null;
+                                })}
+                              </ul>
+                            )}
+                          </li>
                         ))}
                       </ul>
                     </TableCell>
