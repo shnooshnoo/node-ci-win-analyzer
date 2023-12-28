@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChartBuildsShare } from './chart-builds-share.jsx';
 import { ChartJobsShare } from './chart-jobs-share.jsx';
+import { ChartPhaseBreakdown } from './chart-phase-breakdown.jsx';
 
 import {
   chartsContainer,
@@ -158,6 +159,7 @@ export const PRs = () => {
       <div className={chartsContainer}>
         <ChartJobsShare stats={failuresByDate}/>
         <ChartBuildsShare stats={failuresByDate}/>
+        <ChartPhaseBreakdown builds={builds} includeUnstable={includeUnstable} />
       </div>
       <div className={filterBox}>
         <TextField id="standard-basic" label="Date" variant="standard" value={date} onChange={onDateChange}/>
