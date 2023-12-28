@@ -34,7 +34,7 @@ export const Tests = () => {
         return null;
       }
       return item;
-    }).filter((item) => item !== null).slice(0, 50));
+    }).filter((item) => item !== null).slice(0, 100));
   }, [tests, date, setFilteredTests, testName]);
 
   const onTestNameChange = (e) => {

@@ -26,6 +26,14 @@
     background-color: rgba(255, 0, 0, 0.3);
 }
 
+.failedBuild {
+    background-color: rgba(255, 0, 0, 0.09);
+}
+
 .unstableWinBuild {
     background-color: rgba(255, 255, 0, 0.5);
+}
+
+.unstableBuild {
+    background-color: rgba(255, 255, 0, 0.15);
 }
