@@ -27,7 +27,7 @@ import {
 } from './styles.module.css';
 
 export const PRs = () => {
-  const [includeUnstable, setIncludeUnstable] = useState(true);
+  const [includeUnstable, setIncludeUnstable] = useState(false);
   const [showPhases, setShowPhases] = useState(false);
   const [date, setDate] = useState('');
   const [failuresByDate, setFailuresByDate] = useState(null);
