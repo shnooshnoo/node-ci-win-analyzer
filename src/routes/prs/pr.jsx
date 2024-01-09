@@ -18,18 +18,17 @@ import { ChartPhaseBreakdown } from './chart-phase-breakdown.jsx';
 import {
   chartsContainer,
   container,
-  failedBuild,
   failedWinBuild,
   filterBox,
   nestedList,
   statsContainer,
   tableHeaderCell,
-  unstableBuild,
   unstableWinBuild,
 } from './styles.module.css';
 
 export const PRs = () => {
   const [includeUnstable, setIncludeUnstable] = useState(true);
+  const [showPhases, setShowPhases] = useState(false);
   const [date, setDate] = useState('');
   const [failuresByDate, setFailuresByDate] = useState(null);
   const [stats, setStats] = useState({});
@@ -152,6 +151,9 @@ export const PRs = () => {
   const onUnstableChange = (e, isChecked) => {
     setIncludeUnstable(isChecked);
   }
+  const onShowPhasesChange = (e, isChecked) => {
+    setShowPhases(isChecked);
+  }
 
   return (
     <div className={container}>
@@ -170,6 +172,13 @@ export const PRs = () => {
           onChange={onUnstableChange}
         />
         Include unstable
+      </div>
+      <div>
+        <Checkbox
+          checked={showPhases}
+          onChange={onShowPhasesChange}
+        />
+        Show phases
       </div>
       <div className={statsContainer}>
         <span>Total builds failed: {stats.total}</span>
@@ -224,11 +233,9 @@ export const PRs = () => {
                           <li key={index}>
                             <span className={classNames({
                               [failedWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
-                              [failedBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'FAILURE',
                               [unstableWinBuild]: subBuild.jobName === 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
-                              [unstableBuild]: subBuild.jobName !== 'node-test-commit-windows-fanned' && subBuild.result === 'UNSTABLE',
                             })}>{subBuild.jobName} ({subBuild.result})</span>
-                            {subBuild.phases && subBuild.result === 'FAILURE' && (
+                            {showPhases && subBuild.phases && subBuild.result === 'FAILURE' && (
                               <ul className={nestedList}>
                                 {subBuild.phases.map((phase, index) => {
                                   if (phase.result !== 'SUCCESS') {

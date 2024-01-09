@@ -5,7 +5,7 @@ export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const total = {};
+    const failuresByPhase = {};
 
     for (let build of builds) {
       for (let subBuild of build.subBuilds) {
@@ -18,23 +18,23 @@ export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
               if (!includeUnstable && phase.result === 'UNSTABLE') {
                 continue;
               }
-              if (total[phase.jobName] === undefined) {
-                total[phase.jobName] = 0;
+              if (failuresByPhase[phase.jobName] === undefined) {
+                failuresByPhase[phase.jobName] = 0;
               }
-              total[phase.jobName]++;
+              failuresByPhase[phase.jobName]++;
             }
           }
         }
       }
     }
-
-    const names = Object.keys(total);
+    const total = Object.values(failuresByPhase).reduce((acc, item) => acc + item, 0);
+    const names = Object.keys(failuresByPhase);
     names.sort();
 
     if (names.length) {
       setStats({
         names,
-        values: names.map((name) => total[name]),
+        values: names.map((name) => (failuresByPhase[name] * 100 / total).toFixed(2)),
       });
     }
   }, [builds, includeUnstable]);
@@ -45,7 +45,7 @@ export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
 
   return (
     <div>
-      <h4>Windows failures breakdown by phase</h4>
+      <h4>Windows failures breakdown by phase, %</h4>
       <BarChart
         xAxis={[{ scaleType: 'band', data: stats.names }]}
         series={[{ data: stats.values }]}
