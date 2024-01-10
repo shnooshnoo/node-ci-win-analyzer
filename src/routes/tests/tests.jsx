@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import { fetchTests } from '../../common/api.js';
 
 import { tableHeaderCell, filterBox } from './styles.module.css';
 import { Source } from './source.jsx';
@@ -20,7 +21,7 @@ export const Tests = () => {
   const [date, setDate] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/tests').then((res) => res.json()).then(({ data }) => {
+    fetchTests().then(({ data }) => {
       setTests(data);
     })
   }, []);

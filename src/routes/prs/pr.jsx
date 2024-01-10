@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchPRs } from '../../common/api.js';
 import { ChartBuildsShare } from './chart-builds-share.jsx';
 import { ChartJobsShare } from './chart-jobs-share.jsx';
 import { ChartPhaseBreakdown } from './chart-phase-breakdown.jsx';
@@ -43,8 +44,7 @@ export const PRs = () => {
   }, [includeUnstable]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/prs?includeUnstable=${includeUnstable}`)
-      .then((res) => res.json())
+    fetchPRs(includeUnstable)
       .then(({ data }) => {
         setBuilds(data);
 
