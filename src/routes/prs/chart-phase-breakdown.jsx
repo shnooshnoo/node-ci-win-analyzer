@@ -34,7 +34,7 @@ export const ChartPhaseBreakdown = ({ builds, includeUnstable }) => {
     if (names.length) {
       setStats({
         names,
-        values: parseFloat(names.map((name) => (failuresByPhase[name] * 100 / total).toFixed(2))),
+        values: names.map((name) => parseFloat((failuresByPhase[name] * 100 / total).toFixed(2))),
       });
     }
   }, [builds, includeUnstable]);
