@@ -1,5 +1,6 @@
 {
   "name": "node-tool",
+  "homepage": "https://shnooshnoo.github.io/node-ci-win-analyzer",
   "private": true,
   "version": "0.0.0",
   "type": "module",
