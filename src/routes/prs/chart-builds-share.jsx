@@ -12,7 +12,7 @@ export const ChartBuildsShare = ({ stats }) => {
       for (let [key, value] of Object.entries(stats)) {
         statsArr.push({
           date: key,
-          value: (value.winOnly * 100 / value.total).toFixed(2),
+          value: parseFloat((value.winOnly * 100 / value.total).toFixed(2)),
         })
       }
 
