@@ -19,7 +19,9 @@ const router = createBrowserRouter([
       return { Component: PRs };
     },
   },
-]);
+], {
+  basename: "/node-ci-win-analyzer",
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
