@@ -5,13 +5,13 @@ import { getPrs, getTests } from './common.js';
 const app = express();
 const port = 3000;
 
-app.get('/api/prs', async (req, res) => {
+app.get('/api/prs', (req, res) => {
   res.json({
     data: getPrs(req.query.includeUnstable === 'true'),
   });
 });
 
-app.get('/api/tests', async (req, res) => {
+app.get('/api/tests', (req, res) => {
   res.json({ data: getTests() });
 });
 

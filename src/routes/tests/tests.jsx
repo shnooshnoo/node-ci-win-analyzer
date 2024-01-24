@@ -19,7 +19,8 @@ export const Tests = () => {
   const [stats, setStats] = useState([]);
   const [filteredTests, setFilteredTests] = useState([]);
   const [testName, setTestName] = useState('');
-  const [date, setDate] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   useEffect(() => {
     fetchTests().then(({ data }) => {
@@ -45,18 +46,32 @@ export const Tests = () => {
       if (testName.length && !item.testName.includes(testName)) {
         return null;
       }
-      if (date.length && item.date !== date) {
-        return null;
+      if (dateFrom.length) {
+        const itemDate = new Date(item.timestamp).getTime();
+        const dateFromTimestamp = new Date(dateFrom).getTime();
+        if (isNaN(itemDate) || isNaN(dateFromTimestamp) || itemDate < dateFromTimestamp) {
+          return null;
+        }
+      }
+      if (dateTo.length) {
+        const itemDate = new Date(item.timestamp).getTime();
+        const dateToTimestamp = new Date(dateTo).getTime();
+        if (isNaN(itemDate) || isNaN(dateToTimestamp) || itemDate > dateToTimestamp) {
+          return null;
+        }
       }
       return item;
     }).filter((item) => item !== null).slice(0, 100));
-  }, [tests, date, setFilteredTests, testName]);
+  }, [tests, dateFrom, dateTo, setFilteredTests, testName]);
 
   const onTestNameChange = (e) => {
     setTestName(e.target.value.trim());
   }
-  const onDateChange = (e) => {
-    setDate(e.target.value.trim());
+  const onDateFromChange = (e) => {
+    setDateFrom(e.target.value.trim());
+  }
+  const onDateToChange = (e) => {
+    setDateTo(e.target.value.trim());
   }
 
   return (
@@ -89,13 +104,15 @@ export const Tests = () => {
       <h4>All test failures</h4>
       <div className={filterBox}>
         <TextField id="standard-basic" label="Name" variant="standard" value={testName} onChange={onTestNameChange} />
-        <TextField id="standard-basic" label="Date" variant="standard" value={date} onChange={onDateChange} />
+        <TextField id="standard-basic" label="Date from" variant="standard" value={dateFrom} onChange={onDateFromChange} />
+        <TextField id="standard-basic" label="Date to" variant="standard" value={dateTo} onChange={onDateToChange} />
       </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer component={Paper}>
           <Table stickyHeader size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
+                <TableCell className={tableHeaderCell}>#</TableCell>
                 <TableCell className={tableHeaderCell}>Test name</TableCell>
                 <TableCell className={tableHeaderCell}>Job</TableCell>
                 <TableCell className={tableHeaderCell}>Config</TableCell>
@@ -113,12 +130,13 @@ export const Tests = () => {
                   key={index}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">{row.testName}</TableCell>
+                  <TableCell component="th" scope="row">{index + 1}</TableCell>
+                  <TableCell>{row.testName}</TableCell>
                   <TableCell>{row.jobName}</TableCell>
                   <TableCell>{row.config}</TableCell>
                   <TableCell>{row.status}</TableCell>
                   <TableCell>{row.nodeVersion}</TableCell>
-                  <TableCell>{row.date}</TableCell>
+                  <TableCell sx={{ minWidth: 200 }}>{new Date(row.timestamp).toISOString()}</TableCell>
                   <TableCell>
                     <a href={row.buildUrl} target="_blank" rel="noreferrer">{row.buildNumber}</a>
                   </TableCell>
