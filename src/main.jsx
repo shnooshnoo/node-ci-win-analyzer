@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import { isProd } from './common/env.js';
 import { Index } from './routes/index.jsx';
 import './index.css';
 
@@ -20,7 +22,7 @@ const router = createBrowserRouter([
     },
   },
 ], {
-  basename: "/node-ci-win-analyzer",
+  basename: isProd() ? "/node-ci-win-analyzer" : "/",
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

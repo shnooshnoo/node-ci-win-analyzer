@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,6 +15,18 @@ import { fetchTests } from '../../common/api.js';
 import { tableHeaderCell, filterBox } from './styles.module.css';
 import { Source } from './source.jsx';
 
+const isTestFlaky = (test) => {
+  if (typeof test?.tap?.todo !== 'string') {
+    return false;
+  }
+  return test.tap.todo.includes('Fix flaky test');
+};
+
+const FlakyCounter = ({ count }) => {
+  if (!count) return null;
+  return <span>({count} flaky)</span>
+}
+
 export const Tests = () => {
   const [tests, setTests] = useState([]);
   const [stats, setStats] = useState([]);
@@ -21,6 +34,8 @@ export const Tests = () => {
   const [testName, setTestName] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  const [includeFlakyTestsInStats, setIncludeFlakyTestsInStats] = useState(true);
+  const [includeFlakyTestsInTable, setIncludeFlakyTestsInTable] = useState(true);
 
   useEffect(() => {
     fetchTests().then(({ data }) => {
@@ -34,13 +49,24 @@ export const Tests = () => {
       if (test.timestamp < twoWeeksAgo) {
         return acc;
       }
-      return {
-        ...acc,
-        [test.testName]: acc[test.testName] ? acc[test.testName] + 1 : 1,
+      if (!includeFlakyTestsInStats && isTestFlaky(test)) {
+        return acc;
       }
+      const out = { ...acc };
+      if (out[test.testName] === undefined) {
+        out[test.testName] = {
+          failures: 0,
+          flakyFailures: 0,
+        }
+      }
+      out[test.testName].failures++;
+      if (isTestFlaky(test)) {
+        out[test.testName].flakyFailures++;
+      }
+      return out;
     }, {});
     const statsArr = Object.entries(stats);
-    statsArr.sort((a,b) => a[1] > b[1] ? -1 : 1)
+    statsArr.sort((a,b) => a[1].failures > b[1].failures ? -1 : 1)
     setStats(statsArr.slice(0,10));
     setFilteredTests(tests.map((item) => {
       if (testName.length && !item.testName.includes(testName)) {
@@ -60,9 +86,12 @@ export const Tests = () => {
           return null;
         }
       }
+      if (!includeFlakyTestsInTable && isTestFlaky(item)) {
+        return null;
+      }
       return item;
     }).filter((item) => item !== null).slice(0, 100));
-  }, [tests, dateFrom, dateTo, setFilteredTests, testName]);
+  }, [tests, dateFrom, dateTo, includeFlakyTestsInStats, includeFlakyTestsInTable, setFilteredTests, testName]);
 
   const onTestNameChange = (e) => {
     setTestName(e.target.value.trim());
@@ -73,12 +102,23 @@ export const Tests = () => {
   const onDateToChange = (e) => {
     setDateTo(e.target.value.trim());
   }
+  const onIncludeFlakyTestsInStatsChange = (e, isChecked) => {
+    setIncludeFlakyTestsInStats(isChecked);
+  }
+  const onIncludeFlakyTestsInTableChange = (e, isChecked) => {
+    setIncludeFlakyTestsInTable(isChecked);
+  }
 
   return (
     <>
       <Button component={Link} to="/">Back</Button>
       <h4>Most failed tests</h4>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Checkbox
+        checked={includeFlakyTestsInStats}
+        onChange={onIncludeFlakyTestsInStatsChange}
+      />
+      Include flaky tests
+      <Paper sx={{ width: 1200, overflow: 'hidden' }}>
         <TableContainer component={Paper}>
           <Table stickyHeader size="small" aria-label="a dense table">
             <TableHead>
@@ -94,7 +134,7 @@ export const Tests = () => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">{row[0]}</TableCell>
-                  <TableCell>{row[1]}</TableCell>
+                  <TableCell>{row[1].failures} <FlakyCounter count={row[1].flakyFailures} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -106,6 +146,13 @@ export const Tests = () => {
         <TextField id="standard-basic" label="Name" variant="standard" value={testName} onChange={onTestNameChange} />
         <TextField id="standard-basic" label="Date from" variant="standard" value={dateFrom} onChange={onDateFromChange} />
         <TextField id="standard-basic" label="Date to" variant="standard" value={dateTo} onChange={onDateToChange} />
+        <div>
+          <Checkbox
+            checked={includeFlakyTestsInTable}
+            onChange={onIncludeFlakyTestsInTableChange}
+          />
+          Include flaky tests
+        </div>
       </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer component={Paper}>
@@ -114,6 +161,7 @@ export const Tests = () => {
               <TableRow>
                 <TableCell className={tableHeaderCell}>#</TableCell>
                 <TableCell className={tableHeaderCell}>Test name</TableCell>
+                <TableCell className={tableHeaderCell}>Is Flaky</TableCell>
                 <TableCell className={tableHeaderCell}>Job</TableCell>
                 <TableCell className={tableHeaderCell}>Config</TableCell>
                 <TableCell className={tableHeaderCell}>Status</TableCell>
@@ -132,6 +180,7 @@ export const Tests = () => {
                 >
                   <TableCell component="th" scope="row">{index + 1}</TableCell>
                   <TableCell>{row.testName}</TableCell>
+                  <TableCell>{isTestFlaky(row) ? 'Yes' : 'No'}</TableCell>
                   <TableCell>{row.jobName}</TableCell>
                   <TableCell>{row.config}</TableCell>
                   <TableCell>{row.status}</TableCell>

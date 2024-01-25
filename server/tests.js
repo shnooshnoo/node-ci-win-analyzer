@@ -46,9 +46,13 @@ async function findCauses(job, build) {
       upstreamProject: cause.upstreamProject,
       upstreamUrl: cause.upstreamUrl,
     })
-    const deeperCauses = await findCauses(cause.upstreamProject, cause.upstreamBuild);
-    if (deeperCauses.length) {
-      stack.push(...deeperCauses);
+    try {
+      const deeperCauses = await findCauses(cause.upstreamProject, cause.upstreamBuild);
+      if (deeperCauses.length) {
+        stack.push(...deeperCauses);
+      }
+    } catch {
+      // apparently build information was already removed from Jenkins, so fetch returned 404/some other error
     }
   } else if (prId !== null) {
     stack.push({
@@ -60,8 +64,16 @@ async function findCauses(job, build) {
 }
 
 async function parseBuild(jobName, buildNumber) {
-  const buildData = await f(`${domain}job/${jobName}/${buildNumber}/testReport/api/json?tree=failCount,childReports[child[actions[parameters[name,value]],number,fullDisplayName,result,timestamp,url,builtOn],result[failCount,suites[cases[className,status,name]]]]`);
-  const buildJson = await buildData.json();
+  let buildJson;
+
+  try {
+    const buildData = await f(`${domain}job/${jobName}/${buildNumber}/testReport/api/json?tree=failCount,childReports[child[actions[parameters[name,value]],number,fullDisplayName,result,timestamp,url,builtOn],result[failCount,suites[cases[className,status,name]]]]`);
+    buildJson = await buildData.json();
+  } catch {
+    // apparently build information was already removed from Jenkins, so fetch returned 404/some other error
+    return [];
+  }
+
   const items = [];
 
   if (buildJson.failCount === 0) {
@@ -128,11 +140,17 @@ async function parseJob(job) {
     }
     const filePath = `history/${job}/${buildNumber}.json`;
     if (!fs.existsSync(filePath)) {
-      const buildData = await parseBuild(job, buildNumber);
-      fs.writeFileSync(filePath, JSON.stringify({
-        failedTests: buildData,
-      }), 'utf8');
-      filesAdded++;
+      try {
+        const buildData = await parseBuild(job, buildNumber);
+        fs.writeFileSync(filePath, JSON.stringify({
+          failedTests: buildData,
+        }), 'utf8');
+        filesAdded++;
+      } catch {
+        console.log("Something went wrong with one of the builds, please reach out to Artur for debugging with this information: ");
+        console.log("Job: ", job);
+        console.log("BuildNumber: ", buildNumber);
+      }
     }
   }
 
