@@ -7,3 +7,13 @@
     gap: 20px;
     display: flex;
 }
+
+.checkBoxContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.testsFailuresHeader {
+    margin-top: 30px;
+}

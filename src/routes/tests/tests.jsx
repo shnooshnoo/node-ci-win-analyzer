@@ -10,9 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
-import { fetchTests } from '../../common/api.js';
 
-import { tableHeaderCell, filterBox } from './styles.module.css';
+import { tableHeaderCell, filterBox, checkBoxContainer, testsFailuresHeader } from './styles.module.css';
+import { fetchTests } from '../../common/api.js';
 import { Source } from './source.jsx';
 
 const isTestFlaky = (test) => {
@@ -112,7 +112,7 @@ export const Tests = () => {
   return (
     <>
       <Button component={Link} to="/">Back</Button>
-      <h4>Most failed tests</h4>
+      <h3>Most failed tests</h3>
       <Checkbox
         checked={includeFlakyTestsInStats}
         onChange={onIncludeFlakyTestsInStatsChange}
@@ -141,17 +141,17 @@ export const Tests = () => {
           </Table>
         </TableContainer>
       </Paper>
-      <h4>All test failures</h4>
+      <h3 className={testsFailuresHeader}>All test failures</h3>
       <div className={filterBox}>
         <TextField id="standard-basic" label="Name" variant="standard" value={testName} onChange={onTestNameChange} />
         <TextField id="standard-basic" label="Date from" variant="standard" value={dateFrom} onChange={onDateFromChange} />
         <TextField id="standard-basic" label="Date to" variant="standard" value={dateTo} onChange={onDateToChange} />
-        <div>
+        <div className={checkBoxContainer}>
           <Checkbox
             checked={includeFlakyTestsInTable}
             onChange={onIncludeFlakyTestsInTableChange}
           />
-          Include flaky tests
+          <span>Include flaky tests</span>
         </div>
       </div>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
