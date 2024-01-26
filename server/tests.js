@@ -52,7 +52,9 @@ async function findCauses(job, build) {
         stack.push(...deeperCauses);
       }
     } catch {
-      // apparently build information was already removed from Jenkins, so fetch returned 404/some other error
+      console.log('Fetch request for this build failed. Most likely it has already been removed from Jenkins.');
+      console.log("Job: ", job);
+      console.log("BuildNumber: ", build);
     }
   } else if (prId !== null) {
     stack.push({
@@ -70,7 +72,9 @@ async function parseBuild(jobName, buildNumber) {
     const buildData = await f(`${domain}job/${jobName}/${buildNumber}/testReport/api/json?tree=failCount,childReports[child[actions[parameters[name,value]],number,fullDisplayName,result,timestamp,url,builtOn],result[failCount,suites[cases[className,status,name]]]]`);
     buildJson = await buildData.json();
   } catch {
-    // apparently build information was already removed from Jenkins, so fetch returned 404/some other error
+    console.log('Fetch request for this build failed. Most likely it has already been removed from Jenkins.');
+    console.log("Job: ", jobName);
+    console.log("BuildNumber: ", buildNumber);
     return [];
   }
 
