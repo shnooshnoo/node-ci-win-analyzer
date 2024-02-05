@@ -1,4 +1,8 @@
 export const Source = ({ callStack }) => {
+  if (callStack.length === 0) {
+    return null;
+  }
+
   const lastItem = callStack[callStack.length - 1];
 
   if (lastItem.prId) {
