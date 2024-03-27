@@ -1,8 +1,8 @@
-# React + Vite
+### How to update & deploy data
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+All these commands to be run in `main` branch.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+0. install deps if you haven't done it yet - `npm i`
+1. run `npm run update` command. This will send requests to Jenkins, fetch new data and store it in /history folder. May take several minutes depending on how much time passed since the last run of this command.
+2. run `npm run build` command. This will compile data into json files and save it in /dist folder.
+3. commit & push. Any push to the main branch will trigger automatic deploy to gh pages.
