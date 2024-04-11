@@ -1,4 +1,6 @@
 @echo off
+echo Installing dependencies
+call npm install
 echo Running update...
 call npm run update
 echo Building...
