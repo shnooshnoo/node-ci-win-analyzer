@@ -1,0 +1,7 @@
+.tableHeaderCell.tableHeaderCell {
+    font-weight: bold;
+}
+
+.container {
+    width: calc(100vw - 32px);
+}

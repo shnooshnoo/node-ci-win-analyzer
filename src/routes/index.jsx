@@ -5,5 +5,6 @@ export const Index = () => (
   <>
     <Button component={Link} to="/tests">Tests</Button>
     <Button component={Link} to="/prs">PRs</Button>
+    <Button component={Link} to="/dashboard">Dashboard</Button>
   </>
 )

@@ -20,6 +20,12 @@ const router = createBrowserRouter([
       const { PRs } = await import("./routes/prs/pr.jsx");
       return { Component: PRs };
     },
+  },  {
+    path: "/dashboard",
+    async lazy() {
+      const { Dashboard } = await import("./routes/dashboard/dashboard.jsx");
+      return { Component: Dashboard };
+    },
   },
 ], {
   basename: isProd() ? "/node-ci-win-analyzer" : "/",
