@@ -346,9 +346,19 @@ export const Dashboard = () => {
         <MenuItem value={JSON.stringify({ start: new Date(2024, 3).getTime(), end: new Date(2024, 4).getTime() })}>April 2024</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 4).getTime(), end: new Date(2024, 5).getTime() })}>May 2024</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 5).getTime(), end: new Date(2024, 6).getTime() })}>June 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 6).getTime(), end: new Date(2024, 7).getTime() })}>July 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 7).getTime(), end: new Date(2024, 8).getTime() })}>August 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 8).getTime(), end: new Date(2024, 9).getTime() })}>September 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 9).getTime(), end: new Date(2024, 10).getTime() })}>October 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 10).getTime(), end: new Date(2024, 11).getTime() })}>November 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 11).getTime(), end: new Date(2025, 0).getTime() })}>December 2024</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 0).getTime(), end: new Date(2024, 3).getTime() })}>Q1 2024</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 3).getTime(), end: new Date(2024, 6).getTime() })}>Q2 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 6).getTime(), end: new Date(2024, 9).getTime() })}>Q3 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 9).getTime(), end: new Date(2025, 0).getTime() })}>Q4 2024</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 0).getTime(), end: new Date(2024, 6).getTime() })}>H1 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 6).getTime(), end: new Date(2025, 0).getTime() })}>H2 2024</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 0).getTime(), end: new Date(2025, 0).getTime() })}>2024</MenuItem>
       </Select>
       Duration
 

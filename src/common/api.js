@@ -24,7 +24,7 @@ export const fetchTests = async () => {
   if (!isProd()) {
     return fetch(url).then((res) => res.json());
   }
-  return fetchTestsProd(url).then((res) => res);
+  return await fetchTestsProd(url);
 }
 
 const fetchTestsProd = async url => {
@@ -33,5 +33,5 @@ const fetchTestsProd = async url => {
   const files = data.data;
   const filesData = await Promise.all(files.map(file => fetch(file).then(res => res.json())));
   const result = filesData.reduce((res, tests) => [...res, ...tests.data], []);
-  return result;
+  return { data: result};
 };
