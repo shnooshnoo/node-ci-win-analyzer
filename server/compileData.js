@@ -5,7 +5,7 @@ const tests = getTests();
 const PRs = getPrs(false);
 const PRsUnstable = getPrs(true);
 
-const chunkSize = 20000;
+const chunkSize = 10000;
 const numFiles = Math.ceil(tests.length / chunkSize);
 const urls = [];
 for (let i = 0; i < numFiles; i++) {
