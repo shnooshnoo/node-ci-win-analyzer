@@ -378,6 +378,7 @@ export const Dashboard = () => {
         <MenuItem value={JSON.stringify({ start: new Date(2025, 0).getTime(), end: new Date(2025, 6).getTime() })}>H1 2025</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2025, 6).getTime(), end: new Date(2026, 0).getTime() })}>H2 2025</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2025, 0).getTime(), end: new Date(2026, 0).getTime() })}>2025</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2024, 6).getTime(), end: new Date(2025, 6).getTime() })}>FY 2025</MenuItem>
       </Select>
       Duration
 
