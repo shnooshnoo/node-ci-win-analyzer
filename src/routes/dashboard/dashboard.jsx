@@ -379,6 +379,26 @@ export const Dashboard = () => {
         <MenuItem value={JSON.stringify({ start: new Date(2025, 6).getTime(), end: new Date(2026, 0).getTime() })}>H2 2025</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2025, 0).getTime(), end: new Date(2026, 0).getTime() })}>2025</MenuItem>
         <MenuItem value={JSON.stringify({ start: new Date(2024, 6).getTime(), end: new Date(2025, 6).getTime() })}>FY 2025</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 0).getTime(), end: new Date(2026, 1).getTime() })}>January 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 1).getTime(), end: new Date(2026, 2).getTime() })}>February 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 2).getTime(), end: new Date(2026, 3).getTime() })}>March 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 3).getTime(), end: new Date(2026, 4).getTime() })}>April 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 4).getTime(), end: new Date(2026, 5).getTime() })}>May 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 5).getTime(), end: new Date(2026, 6).getTime() })}>June 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 6).getTime(), end: new Date(2026, 7).getTime() })}>July 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 7).getTime(), end: new Date(2026, 8).getTime() })}>August 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 8).getTime(), end: new Date(2026, 9).getTime() })}>September 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 9).getTime(), end: new Date(2026, 10).getTime() })}>October 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 10).getTime(), end: new Date(2026, 11).getTime() })}>November 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 11).getTime(), end: new Date(2027, 0).getTime() })}>December 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 0).getTime(), end: new Date(2026, 3).getTime() })}>Q1 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 3).getTime(), end: new Date(2026, 6).getTime() })}>Q2 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 6).getTime(), end: new Date(2026, 9).getTime() })}>Q3 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 9).getTime(), end: new Date(2027, 0).getTime() })}>Q4 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 0).getTime(), end: new Date(2026, 6).getTime() })}>H1 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 6).getTime(), end: new Date(2027, 0).getTime() })}>H2 2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2026, 0).getTime(), end: new Date(2027, 0).getTime() })}>2026</MenuItem>
+        <MenuItem value={JSON.stringify({ start: new Date(2025, 6).getTime(), end: new Date(2026, 6).getTime() })}>FY 2026</MenuItem>
       </Select>
       Duration
 
